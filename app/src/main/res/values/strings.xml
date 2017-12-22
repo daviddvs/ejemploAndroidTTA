@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">ejemploAndroidTTA</string>
+    <string name="app_name">Alumno de TTA</string>
+    <string name="login_label">Usuario</string>
+    <string name="login_edit">Introduce DNI</string>
+    <string name="passwd_label">Contraseña</string>
+    <string name="passwd_edit">Introduce password</string>
+    <string name="login_button">ACCEDER</string>
 </resources>
