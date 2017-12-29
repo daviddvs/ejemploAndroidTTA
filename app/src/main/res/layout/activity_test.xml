@@ -1,9 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="eus.ehu.ejemploandroidtta.ejemploandroidtta.TestActivity">
+    tools:context="eus.ehu.ejemploandroidtta.ejemploandroidtta.TestActivity"
+    android:orientation="vertical">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/test_question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="16dp"
+        android:text="Pregunta nueva: Elige una de las opciones"/>
+
+    <!-- Me dice que esta deprecated el fill_parent -->
+    <RadioGroup
+        android:id="@+id/test_choices"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <!-- Populated programatically -->
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ejemplo"/>
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/button_send_test"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_send"
+        android:onClick="send"/>
+
+    <Button
+        android:id="@+id/button_get_help"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_help"
+        android:onClick="help"/>
+
+    <!-- Aqui tiene que ir un texto que se metera diamicamnete (la ayuda cuando fallas) -->
+
+</LinearLayout>

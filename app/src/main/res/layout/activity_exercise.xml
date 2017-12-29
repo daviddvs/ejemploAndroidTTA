@@ -1,9 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="eus.ehu.ejemploandroidtta.ejemploandroidtta.ExerciseActivity">
+    tools:context="eus.ehu.ejemploandroidtta.ejemploandroidtta.ExerciseActivity"
+    android:orientation="vertical">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/exercise_wording"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:text="Enunciado del ejercicio que se rellena dinamicamente"/>
+
+    <Button
+        android:id="@+id/button_send_file"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_send_file"
+        android:onClick="sendFile"/>
+
+    <Button
+        android:id="@+id/button_take_photo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_take_photo"
+        android:onClick="takePhoto"/>
+
+    <Button
+        android:id="@+id/button_record_audio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_record_audio"
+        android:onClick="recordAudio"/>
+
+    <Button
+        android:id="@+id/button_record_video"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_record_video"
+        android:onClick="recordVideo"/>
+
+</LinearLayout>

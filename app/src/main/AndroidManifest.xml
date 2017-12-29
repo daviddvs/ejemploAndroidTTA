@@ -12,13 +12,17 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".EvaluationActivity"
-            android:label="@string/evaluation_activity_name">
-        </activity>
+            android:label="@string/evaluation_activity_name"></activity>
+        <activity
+            android:name=".TestActivity"
+            android:label="@string/test_activity_name"></activity>
+        <activity android:name=".ExerciseActivity"></activity>
     </application>
 
 </manifest>
