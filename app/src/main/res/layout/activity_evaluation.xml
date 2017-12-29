@@ -45,7 +45,5 @@
         android:text="@string/monitoring_button"
         android:onClick="monitoring" />
 
-    
-
 
 </LinearLayout>
