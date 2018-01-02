@@ -1,19 +1,23 @@
 <resources>
     <string name="app_name">Alumno de TTA</string>
+    <string name="evaluation_activity_name">Evaluación de TTA</string>
+    <string name="test_activity_name">Nuevo Test</string>
+    <string name="exercise_activity_name">Nuevo Ejercicio</string>
     <string name="login_label">Usuario</string>
     <string name="login_edit">Introduce DNI</string>
     <string name="passwd_label">Contraseña</string>
     <string name="passwd_edit">Introduce password</string>
     <string name="login_button">ACCEDER</string>
-    <string name="evaluation_activity_name">Evaluación de TTA</string>
     <string name="test_button">NUEVO TEST</string>
     <string name="exercise_button">NUEVO EJERCICIO</string>
     <string name="monitoring_button">SEGUIMIENTO</string>
-    <string name="test_activity_name">Nuevo Test</string>
     <string name="button_send">ENVIAR</string>
     <string name="button_help">AYUDA</string>
     <string name="button_send_file">SUBIR FICHERO</string>
     <string name="button_take_photo">SACAR FOTO</string>
     <string name="button_record_audio">GRABAR AUDIO</string>
     <string name="button_record_video">GRABAR VÍDEO</string>
+    <string name="no_micro">El dispositivo no tiene micrófono</string>
+    <string name="no_app">El dispositivo no tiene app para esta función</string>
+
 </resources>
