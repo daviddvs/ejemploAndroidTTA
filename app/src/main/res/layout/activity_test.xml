@@ -22,10 +22,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <!-- Populated programatically -->
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ejemplo"/>
     </RadioGroup>
 
     <Button
@@ -37,7 +33,7 @@
         android:onClick="send"/>
 
     <Button
-        android:id="@+id/button_get_help"
+        android:id="@+id/button_view_advise"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
