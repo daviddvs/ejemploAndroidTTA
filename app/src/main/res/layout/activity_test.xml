@@ -40,6 +40,6 @@
         android:text="@string/button_help"
         android:onClick="help"/>
 
-    <!-- Aqui tiene que ir un texto que se metera diamicamnete (la ayuda cuando fallas) -->
+    <!-- Aqui tiene que ir un texto/video/audio que se metera diamicamnete (la ayuda cuando fallas) -->
 
 </LinearLayout>
