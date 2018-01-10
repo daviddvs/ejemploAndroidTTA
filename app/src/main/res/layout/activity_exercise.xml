@@ -19,14 +19,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/button_send_file"
-        android:onClick="sendFile"/>
+        android:onClick=""/>
 
     <Button
         android:id="@+id/button_take_photo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/button_take_photo"
-        android:onClick="takePhoto"/>
+        android:onClick="sendPicture"/>
 
     <Button
         android:id="@+id/button_record_audio"

@@ -18,6 +18,7 @@
     <string name="button_record_audio">GRABAR AUDIO</string>
     <string name="button_record_video">GRABAR VÍDEO</string>
     <string name="no_micro">El dispositivo no tiene micrófono</string>
+    <string name="no_camera">El dispositivo no tiene cámara</string>
     <string name="no_app">El dispositivo no tiene app para esta función</string>
 
 </resources>
