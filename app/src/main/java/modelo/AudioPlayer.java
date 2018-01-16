@@ -33,6 +33,10 @@ public class AudioPlayer
                 }
                 return super.dispatchKeyEvent(event);
             }
+            @Override
+            public void show(int timeout) {
+                super.show(0);
+            }
         };
     }
 

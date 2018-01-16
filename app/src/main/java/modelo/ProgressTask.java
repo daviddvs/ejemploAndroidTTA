@@ -9,13 +9,13 @@ import android.widget.Toast;
  * Created by tta on 1/14/18.
  */
 
-public abstract class PregressTask<T> extends AsyncTask<Void, Void, T> {
+public abstract class ProgressTask<T> extends AsyncTask<Void, Void, T> {
 
     protected final Context context;
     private final ProgressDialog dialog;
     private Exception e;
 
-    public PregressTask(Context context) {
+    public ProgressTask(Context context) {
         this.context = context;
         dialog = new ProgressDialog(context);
         dialog.setMessage("Conectando ...");
