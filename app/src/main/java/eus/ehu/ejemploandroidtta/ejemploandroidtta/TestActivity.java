@@ -2,8 +2,11 @@ package eus.ehu.ejemploandroidtta.ejemploandroidtta;
 
 
 import modelo.Pregunta;
+import modelo.ProgressTask;
+import modelo.School;
 import modelo.Test;
 import modelo.AudioPlayer;
+import modelo.User;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -21,6 +24,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import org.json.JSONException;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,38 +38,45 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
     String advise;
     String adviseType;
     ViewGroup layout;
+    final String baseUrl="http://u017633.ehu.eus:28080/ServidorTta/rest/tta";
+    School school = new School(baseUrl);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-        fillTest();
+        try {
+            fillTest();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void fillTest() {
-        //Test test = data.getTest();// obtener preguntas de Test de algun sitio, de un objeto Test
-        List<String> choices = new ArrayList<String>();
-        choices.add("Option0");choices.add("Option1");choices.add("Option2");choices.add("Option3");
-        test = new Test();
+    private void fillTest() throws IOException, JSONException {
+        School school = new School(baseUrl);
+        test = EvaluationActivity.test; //school.getTest();
         TextView textWording = (TextView) findViewById(R.id.test_wording);
-        textWording.setText(test.getEnunciado());
+        textWording.setText(test.getWording());
         group = (RadioGroup)findViewById(R.id.test_choices);
         int i = 0;
-        for(Pregunta pregunta : test.getTest()) {
+        for(Pregunta pregunta : test.getPreguntas()) {
             RadioButton radio = new RadioButton(this);
-            radio.setText(pregunta.enunciado);
+            radio.setText(pregunta.getEnunciado());
             radio.setOnClickListener(this);
             group.addView(radio);
-            if (pregunta.correcta)
+            if (pregunta.isCorrecta())
                 correct = i;
             i++;
-
         }
     }
 
     public void send(View view) {
         layout = (ViewGroup)view.getParent();
-        int selected = (group.getCheckedRadioButtonId()-1);
+        int radioButtonId = group.getCheckedRadioButtonId();//Este id no es la posicion del radioButton
+        View radioButton = group.findViewById(radioButtonId);
+        int selected = group.indexOfChild(radioButton);
         int choices = group.getChildCount();
         for (int i=0; i<choices; i++)
             group.getChildAt(i).setEnabled(false);
@@ -75,12 +87,24 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         if(selected != correct){
             group.getChildAt(selected).setBackgroundColor(Color.RED);
             Toast.makeText(getApplicationContext(), "¡Has fallado!", Toast.LENGTH_SHORT).show();
-            adviseType = test.getTest().get(selected).tipoMIMEAyuda;
-            advise = test.getTest().get(selected).recursoAyuda;
+            adviseType = test.getPreguntas().get(selected).getMime();
+            advise = test.getPreguntas().get(selected).getAyuda();
             if(advise != null && !advise.isEmpty())
                 findViewById(R.id.button_view_advise).setVisibility(View.VISIBLE);
         } else
             Toast.makeText(getApplicationContext(), "¡Correcto!", Toast.LENGTH_SHORT).show();
+
+        new ProgressTask<Integer>(this){
+            @Override
+            protected Integer work() throws Exception{
+                return school.uploadChoice(MainActivity.user.getId(), group.getCheckedRadioButtonId());
+            }
+            @Override
+            protected void onFinish(Integer result){
+                Toast.makeText(context, "Status code: "+result.toString(), Toast.LENGTH_SHORT).show();
+            }
+        }.execute();
+
     }
 
     public void help(View view) {
@@ -100,10 +124,10 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
                 layout.addView(web);
             }
         }
-        else if( adviseType.equals("video") ) {
+        else if( adviseType.equals("video/mp4") ) {
             showVideo(advise);
         }
-        else if( adviseType.equals("audio") ) {
+        else if( adviseType.equals("audio/mpeg") ) {
             playAudio(advise, (View) view.getParent());
         }
     }

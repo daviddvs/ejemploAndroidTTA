@@ -18,7 +18,7 @@
     <!-- Me dice que esta deprecated el fill_parent -->
     <RadioGroup
         android:id="@+id/test_choices"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <!-- Populated programatically -->
