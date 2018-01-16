@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/button_send_file"
-        android:onClick=""/>
+        android:onClick="uploadFile"/>
 
     <Button
         android:id="@+id/button_take_photo"

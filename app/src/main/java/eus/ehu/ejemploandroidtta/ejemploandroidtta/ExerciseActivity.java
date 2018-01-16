@@ -3,16 +3,26 @@ package eus.ehu.ejemploandroidtta.ejemploandroidtta;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+
+import modelo.Exercise;
+import modelo.ProgressTask;
+import modelo.School;
 
 public class ExerciseActivity extends AppCompatActivity {
 
@@ -21,12 +31,21 @@ public class ExerciseActivity extends AppCompatActivity {
     public static final int AUDIO_REQUEST_CODE = 2;
     public static final int PICTURE_REQUEST_CODE = 3;
 
-    Uri pictureUri;
+    private Uri pictureUri;
+    private Exercise exercise;
+    School school = new School("http://u017633.ehu.eus:28080/ServidorTta/rest/tta");
+    InputStream is = null;
+    String pictureFileName;
+    String fileName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise);
+
+        exercise = EvaluationActivity.exercise;
+        TextView wording = (TextView)findViewById(R.id.exercise_wording);
+        wording.setText(exercise.getWording());
     }
 
     @Override
@@ -37,16 +56,53 @@ public class ExerciseActivity extends AppCompatActivity {
             case READ_REQUEST_CODE:
             case VIDEO_REQUEST_CODE:
             case AUDIO_REQUEST_CODE:
-                sendFile(data.getData());//Enviar el archivo cuando se haya grabado
+                sendFile(data.getData());//Enviar filename del archivo cuando se haya grabado
                 break;
             case PICTURE_REQUEST_CODE:
                 sendFile(pictureUri);//Enviar uri
                 break;
-
         }
     }
 
     public void sendFile(Uri uri) {
+        if(uri.toString().contains("file:")) {
+            //Foto
+            String[] splits = uri.toString().split("/");
+            fileName =  splits[splits.length-1];
+            try {
+                is = new FileInputStream(uri.toString().substring(7));//se quita el "file:"
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            try {
+                is = getContentResolver().openInputStream(uri);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            Cursor cursor = getContentResolver().query(uri, null, null, null, null, null);
+            if(cursor != null && cursor.moveToFirst()){
+                fileName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+            }
+            if(cursor != null){
+                cursor.close();
+            }
+        }
+
+        new ProgressTask<Integer>(this){
+            @Override
+            protected Integer work() throws Exception{
+                return school.uploadFile(MainActivity.user.getId(), exercise.getId(), is, fileName);
+            }
+            @Override
+            protected void onFinish(Integer result){
+                Toast.makeText(context, "Status code: "+result.toString(), Toast.LENGTH_SHORT).show();
+            }
+        }.execute();
+    }
+
+    public void uploadFile(View view) {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("*/*");//Mime type
