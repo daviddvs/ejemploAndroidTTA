@@ -7,15 +7,53 @@ import java.util.List;
  */
 
 public class Pregunta {
-    public String enunciado;
-    public boolean correcta;
-    public String tipoMIMEAyuda;
-    public String recursoAyuda;
+    private int id;
+    private String enunciado;
+    private boolean correcta;
+    private String mime;
+    private String ayuda;
 
-    public Pregunta(String enun, boolean corr, String tipo, String recurso){
-        enunciado = enun;
-        correcta = corr;
-        tipoMIMEAyuda = tipo;
-        recursoAyuda = recurso;
+    public Pregunta(){
+
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getEnunciado() {
+        return enunciado;
+    }
+
+    public void setEnunciado(String enunciado) {
+        this.enunciado = enunciado;
+    }
+
+    public boolean isCorrecta() {
+        return correcta;
+    }
+
+    public void setCorrecta(boolean correcta) {
+        this.correcta = correcta;
+    }
+
+    public String getMime() {
+        return mime;
+    }
+
+    public void setMime(String mime) {
+        this.mime = mime;
+    }
+
+    public String getAyuda() {
+        return ayuda;
+    }
+
+    public void setAyuda(String ayuda) {
+        this.ayuda = ayuda;
     }
 }

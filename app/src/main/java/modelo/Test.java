@@ -8,15 +8,16 @@ import java.util.List;
  */
 
 public class Test {
-    List<Pregunta> preguntas;
-    String enunciado;
+     private List<Pregunta> preguntas;
+     private String wording;
 
     public Test(){
         preguntas = new ArrayList<Pregunta>();
     }
 
-    public List<Pregunta> getTest(){
+    public List<Pregunta> getPreguntas(){
 
+        /*
         Pregunta preg0 = new Pregunta("Option0",true,"","");//Ayuda solo las que estan mal
         Pregunta preg1 = new Pregunta("Option1",false,"text/html","Deberias estudiar mas");
         Pregunta preg2 = new Pregunta("Option2",false,"text/html","https://egela1718.ehu.eus");
@@ -27,13 +28,19 @@ public class Test {
         preguntas.add(preg2);
         preguntas.add(preg3);
         preguntas.add(preg4);
-
-        return preguntas;
-
+        */
+        return this.preguntas;
     }
-    public String getEnunciado(){
-        enunciado = "Elige una opción";
-        return enunciado;
+    public void setPreguntas(List<Pregunta> preguntas) {
+        this.preguntas = preguntas;
     }
+    public String getWording(){
+        return this.wording;
+    }
+    public void setWording(String wording) {
+        this.wording=wording;
+    }
+
+
 
 }
