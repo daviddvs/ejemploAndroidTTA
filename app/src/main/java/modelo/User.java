@@ -11,12 +11,31 @@ public class User {
     private String lessonTitle;
     private int nextTest;
     private int nextExercise;
+    private String dni;
+    private String passwd;
 
     public User(){
 
     }
 
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
+
+    public String getPasswd() {
+        return passwd;
+    }
+
+    public void setPasswd(String passwd) {
+        this.passwd = passwd;
+    }
+
     public int getId() {
+
         return id;
     }
 

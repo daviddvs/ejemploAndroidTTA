@@ -20,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
+import modelo.Data;
 import modelo.Exercise;
 import modelo.ProgressTask;
 import modelo.School;
@@ -33,17 +34,17 @@ public class ExerciseActivity extends AppCompatActivity {
 
     private Uri pictureUri;
     private Exercise exercise;
-    School school = new School("http://u017633.ehu.eus:28080/ServidorTta/rest/tta");
-    InputStream is = null;
-    String pictureFileName;
-    String fileName;
+    private School school = new School("http://u017633.ehu.eus:28080/ServidorTta/rest/tta");
+    private InputStream is = null;
+    private String fileName;
+    private Data data = Data.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise);
 
-        exercise = EvaluationActivity.exercise;
+        exercise = data.getExercise();
         TextView wording = (TextView)findViewById(R.id.exercise_wording);
         wording.setText(exercise.getWording());
     }
@@ -93,7 +94,7 @@ public class ExerciseActivity extends AppCompatActivity {
         new ProgressTask<Integer>(this){
             @Override
             protected Integer work() throws Exception{
-                return school.uploadFile(MainActivity.user.getId(), exercise.getId(), is, fileName);
+                return school.uploadFile(data.getUser().getId(), exercise.getId(), is, fileName);
             }
             @Override
             protected void onFinish(Integer result){

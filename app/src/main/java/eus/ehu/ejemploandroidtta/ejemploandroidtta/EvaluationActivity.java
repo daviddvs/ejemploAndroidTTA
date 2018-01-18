@@ -12,21 +12,22 @@ public class EvaluationActivity extends AppCompatActivity {
     public static final String EXTRA_LOGIN = "login";
     public static final String EXTRA_TEST = "test";
     public School school = new School("http://u017633.ehu.eus:28080/ServidorTta/rest/tta");
-    public static Test test;
-    public static Exercise exercise;
+    //public static Test test;
+    //public static Exercise exercise;
+    private Data data = Data.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evaluation);
 
-        Intent intent = getIntent();
+        //Intent intent = getIntent();
         TextView textLogin = (TextView)findViewById(R.id.menu_login);
         //textLogin.setText("Bienvenido " + intent.getStringExtra(EXTRA_LOGIN));
-        textLogin.setText("Bienvenido "+ MainActivity.user.getName());
+        textLogin.setText("Bienvenido "+ data.getUser().getName());
 
         TextView textLesson = (TextView)findViewById(R.id.lesson_title);
-        textLesson.setText("Lección "+MainActivity.user.getLessonNumber()+"\n"+MainActivity.user.getLessonTitle());
+        textLesson.setText("Lección "+data.getUser().getLessonNumber()+"\n"+data.getUser().getLessonTitle());
 
     }
 
@@ -39,9 +40,8 @@ public class EvaluationActivity extends AppCompatActivity {
             }
             @Override
             protected void onFinish(Test result){
-                EvaluationActivity.test=result;
+                data.setTest(result);
                 Intent intent = new Intent(this.context, TestActivity.class);
-                //intent.putExtra(EvaluationActivity.EXTRA_TEST,result);
                 startActivity(intent);
             }
         }.execute();
@@ -57,9 +57,8 @@ public class EvaluationActivity extends AppCompatActivity {
             }
             @Override
             protected void onFinish(Exercise result){
-                EvaluationActivity.exercise=result;
+                data.setExercise(result);
                 Intent intent = new Intent(this.context, ExerciseActivity.class);
-                //intent.putExtra(EvaluationActivity.EXTRA_LOGIN,login);
                 startActivity(intent);
             }
         }.execute();

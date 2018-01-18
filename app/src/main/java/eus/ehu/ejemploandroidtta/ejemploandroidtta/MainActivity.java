@@ -3,6 +3,7 @@ package eus.ehu.ejemploandroidtta.ejemploandroidtta;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -13,7 +14,7 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity {
 
     public School school = new School("http://u017633.ehu.eus:28080/ServidorTta/rest/tta");
-    public static User user;
+    private Data data = Data.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,35 +22,40 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    private boolean authenticate(String login, String passwd) {
-        return login.equals(passwd);
+    private void authenticate(final String login, final String passwd) {
+
+        new ProgressTask<User>(this){
+            @Override
+            protected User work() throws Exception{
+                return school.getUser(login, passwd);
+            }
+            @Override
+            protected void onFinish(User result){
+                data.setUser(result);
+                if(data.getUser() != null) {
+                    data.getUser().setDni(login);
+                    data.getUser().setPasswd(passwd);
+                    shiftActivity(true);
+                } else if (data.getUser() == null)
+                    shiftActivity(false);
+            }
+        }.execute();
+        //Log.d("W",data.getUser().getName());
     }
 
     public void login(View view) {
-        Intent intent = new Intent(this, EvaluationActivity.class);
         String login = ((EditText)findViewById(R.id.login)).getText().toString();
         String passwd = ((EditText)findViewById(R.id.passwd)).getText().toString();
+        authenticate(login, passwd);
+    }
 
-        if( authenticate(login, passwd) ) {
-
-            new ProgressTask<User>(this){
-                @Override
-                protected User work() throws Exception{
-                    return school.getUser("12345678A");
-                }
-                @Override
-                protected void onFinish(User result){
-                    MainActivity.user=result;
-                    Intent intent = new Intent(this.context, EvaluationActivity.class);
-                    //intent.putExtra(EvaluationActivity.EXTRA_LOGIN,login);
-                    startActivity(intent);
-                }
-            }.execute();
-
+    private void shiftActivity(boolean auth) {
+        if( auth ) {
+            Intent intent = new Intent(this, EvaluationActivity.class);
+            startActivity(intent);
         }
         else {
             Toast.makeText(this, "Error de acceso", Toast.LENGTH_SHORT).show();
         }
-
     }
 }

@@ -1,6 +1,7 @@
 package eus.ehu.ejemploandroidtta.ejemploandroidtta;
 
 
+import modelo.Data;
 import modelo.Pregunta;
 import modelo.ProgressTask;
 import modelo.School;
@@ -32,14 +33,15 @@ import java.util.List;
 
 public class TestActivity extends AppCompatActivity implements View.OnClickListener{
 
-    int correct = -1;
-    RadioGroup group;
-    Test test;
-    String advise;
-    String adviseType;
-    ViewGroup layout;
-    final String baseUrl="http://u017633.ehu.eus:28080/ServidorTta/rest/tta";
-    School school = new School(baseUrl);
+    private int correct = -1;
+    private RadioGroup group;
+    private Test test;
+    private String advise;
+    private String adviseType;
+    private ViewGroup layout;
+    public final String baseUrl="http://u017633.ehu.eus:28080/ServidorTta/rest/tta";
+    private School school = new School(baseUrl);
+    private Data data = Data.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +58,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
 
     private void fillTest() throws IOException, JSONException {
         School school = new School(baseUrl);
-        test = EvaluationActivity.test; //school.getTest();
+        test = data.getTest();
         TextView textWording = (TextView) findViewById(R.id.test_wording);
         textWording.setText(test.getWording());
         group = (RadioGroup)findViewById(R.id.test_choices);
@@ -97,7 +99,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         new ProgressTask<Integer>(this){
             @Override
             protected Integer work() throws Exception{
-                return school.uploadChoice(MainActivity.user.getId(), group.getCheckedRadioButtonId());
+                return school.uploadChoice(data.getUser().getId(), group.getCheckedRadioButtonId());
             }
             @Override
             protected void onFinish(Integer result){
